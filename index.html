@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agriculture Digitization App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f0f8f0; /* Light green background */
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 500px;
+      width: 100%;
+      padding: 20px;
+      background-color: #ffffff; /* White background for form */
+      border-radius: 15px;
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      text-align: center;
+      color: #4CAF50; /* Green color for headings */
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      transition: border-color 0.3s;
+    }
+
+    input:focus {
+      border-color: #4CAF50; /* Change border color on focus */
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50; /* Green button color */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #45a049; /* Darker green on hover */
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #e8f5e9; /* Light green background for results */
+      border-radius: 10px;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+      display: none; /* Initially hidden */
+    }
+
+    .notification {
+      color: #d32f2f; /* Red color for notifications */
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Login</h2>
+    <input type="text" id="mobileNumber" placeholder="Mobile Number" required>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button onclick="login()">Login</button>
+
+    <div id="cropForm" style="display: none;">
+      <h2>Enter Crop Details</h2>
+      <input type="text" id="cropName" placeholder="Crop Name" required>
+      <input type="number" id="fieldAmount" placeholder="Amount Used in Field (kg)" required>
+      <input type="text" id="weatherCondition" placeholder="Weather Condition (e.g., Sunny, Rainy, Humid)" required>
+      <button onclick="calculate()">Calculate</button>
+
+      <div id="result" class="result">
+        <p><strong>Amount of Water:</strong> <span id="waterAmount"></span> liters/day</p>
+        <p><strong>Time of Harvest:</strong> <span id="harvestTime"></span> days</p>
+        <p><strong>Amount of Fertilizer:</strong> <span id="fertilizerAmount"></span> kg</p>
+        <p class="notification" id="notification"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function login() {
+      const mobileNumber = document.getElementById('mobileNumber').value;
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if (mobileNumber && username && password) {
+        alert('Login successful!');
+        document.getElementById('cropForm').style.display = 'block';
+        // Start daily notifications
+        startDailyNotifications();
+      } else {
+        alert('Please fill in all fields.');
+      }
+    }
+
+    function calculate() {
+      const cropName = document.getElementById('cropName').value;
+      const fieldAmount = parseFloat(document.getElementById('fieldAmount').value);
+      const weatherCondition = document.getElementById('weatherCondition').value;
+
+      if (cropName && fieldAmount && weatherCondition) {
+        // Logic for calculating water, harvest time, and fertilizer
+        let waterAmount = fieldAmount * 0.5; // Example: 0.5 liters per kg of crop
+        let harvestTime = 100; // Example: average harvest time = 100 days (this can vary)
+        let fertilizerAmount = fieldAmount * 0.2; // Example: 0.2 kg fertilizer per kg of crop
+
+        // Display results
+        document.getElementById('waterAmount').innerText = waterAmount.toFixed(2);
+        document.getElementById('harvestTime').innerText = harvestTime;
+        document.getElementById('fertilizerAmount').innerText = fertilizerAmount.toFixed(2);
+        document.getElementById('result').style.display = 'block';
+      } else {
+        alert('Please fill in all fields correctly.');
+      }
+    }
+
+    function startDailyNotifications() {
+      setInterval(() => {
+        alert('Daily Reminder: Please check your crops.');
+
+        // Prompt user for feedback on crop conditions
+        const feedback = prompt('Please provide feedback on your crops (e.g., growth, issues):');
+        if (feedback) {
+          console.log(`User feedback: ${feedback}`);
+          alert('Thank you for your feedback!');
+        }
+      }, 86400000); // 86400000 milliseconds = 1 day
+    }
+  </script>
+
+</body>
+</html>
